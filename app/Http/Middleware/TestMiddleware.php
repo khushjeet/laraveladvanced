@@ -2,12 +2,11 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class CheckRoleMiddleware
+class TestMiddleware
 {
     /**
      * Handle an incoming request.
@@ -16,17 +15,7 @@ class CheckRoleMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-
-
-        $user = User::findOrFail($request->user_id);
-        if($user->role === 'admin'){
-            return $next($request);
-        }
-        if($user->role === 'user'){
-            return $next($request->user_id);
-        }
-
-        return response()->json(['error' => 'Unauthorized'], 403);
+        //dd('TestMiddleware is working');
+        return $next($request);
     }
 }
- 
