@@ -16,8 +16,21 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware)
     {
         //
-        $middleware->append((TestMiddleware::class));
-        $middleware ->append(CheckRoleMiddleware::class);
+        // $middleware->append((TestMiddleware::class));
+        // $middleware ->append(CheckRoleMiddleware::class);
+
+
+
+
+
+        // $middleware->appendToGroup('goup_middleware',[
+        //     TestMiddleware::class,
+        //     CheckRoleMiddleware::class,
+        // ]);
+
+
+        // $middleware->alias(['test' => TestMiddleware::class]);
+        $middleware->alias(['test'=>CheckRoleMiddleware::class]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

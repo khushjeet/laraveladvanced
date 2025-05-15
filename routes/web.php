@@ -18,5 +18,20 @@ Route::get('/', function () {
 
 // });
 
+
+// Route::group(['middleware' => ['goup_middleware']],function(){
+
+//     Route::get('/posts',[PostController::class,'index'])->name('posts.index');
+//     Route::post('/posts',[PostController::class,'store'])->name('posts.store');
+
+// });
+
+
+
+// Route::get('/posts',[PostController::class,'index'])->name('posts.index');
+// Route::post('/posts',[PostController::class,'store'])->name('posts.store');
+
+
+
 Route::get('/posts',[PostController::class,'index'])->name('posts.index');
-Route::post('/posts',[PostController::class,'store'])->name('posts.store');
+Route::post('/posts',[PostController::class,'store'])->name('posts.store')->middleware('test');

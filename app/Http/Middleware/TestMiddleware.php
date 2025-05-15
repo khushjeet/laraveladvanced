@@ -15,7 +15,7 @@ class TestMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        //dd('TestMiddleware is working');
+        dd('TestMiddleware is working');
         return $next($request);
     }
 }
