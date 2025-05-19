@@ -9,22 +9,23 @@
 <body>
 
 <div>
+<form action="{{ route('send.email') }}" method="POST" enctype="multipart/form-data">
+    @csrf
 
-    <form action="{{ route('send.email') }}" method="POST">
-        @csrf
-        <div>
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-        </div>
+    <div>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+    </div>
 
-        <div>
-            <label for="message">Message:</label>
-            <textarea type="text" id="message" name="message" required></textarea>
-        </div>
+    <div>
+        <label for="message">Message:</label>
+        <textarea id="message" name="message" required></textarea>
+    </div>
 
-        <button type="submit">Send Email</button>
 
-</div>
+    <button type="submit">Send Email</button>
+</form>
+
 
 </body>
 </html>

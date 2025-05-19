@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EmailController;
 use App\Http\Controllers\ProfileController;
 use App\Mail\SendMail;
 use Illuminate\Http\Request;
@@ -20,18 +21,35 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/send_mail', function () {
-    return view('mail.send_mail');
-});
+// Route::get('/send_mail_1', function () {
+//     return view('mail.send_mail');
+// });
 
-Route::post('/send_mail', function (Request $request) {
-    // Mail::raw($request->message, function ($message) use ($request) {
-    //     $message->to($request->email)
-    //         ->subject("Laravel Mail Test");
-    // });
+// Route::post('/send_mail_1', function (Request $request) {
+//     // Mail::raw($request->message, function ($message) use ($request) {
+//     //     $message->to($request->email)
+//     //         ->subject("Laravel Mail Test");
+//     // });
+// })->name('send.email');
 
-    Mail::to($request->email)->send(new SendMail($request->message));
-    dd('Email sent successfully');
-})->name('send.email');
+// Route::post('/send_mail_1', function (Request $request) {
+//     $filePath = null;
+
+//     if ($request->hasFile('file')) {
+//         $filePath = $request->file('file')->store('attachments');
+//     }
+
+//     Mail::to($request->email)->queue(new SendMail($request->message, ));
+
+//     dd("Email sent successfully");
+// })->name('send.email');
+
+
+
+
+
+Route::get('/send-email', [EmailController::class, 'index'])->name('email.form');
+Route::post('/send-email', [EmailController::class, 'send'])->name('email.send');
+
 
 require __DIR__ . '/auth.php';
