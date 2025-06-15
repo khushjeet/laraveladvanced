@@ -5,5 +5,6 @@
 </head>
 <body>
     <p>{{ $details['body'] }}</p>
+    <p>See attachment for the image.</p>
 </body>
 </html>

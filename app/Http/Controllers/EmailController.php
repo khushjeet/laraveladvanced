@@ -1,15 +1,13 @@
 <?php
-
-
-// app/Http/Controllers/EmailController.php
-
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Mail\NotifyUserMail;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Http\Request;
-use App\Jobs\SendEmailJob;
+use Illuminate\Support\Facades\Mail;
 
-class EmailController extends Controller
+class EmailController extends Controller implements ShouldQueue
 {
     public function index()
     {
@@ -17,25 +15,36 @@ class EmailController extends Controller
         return view('emails.form', compact('users'));
     }
 
-    public function send(Request $request)
-    {
-        $request->validate([
-            'user_ids' => 'required|array',
-            'subject' => 'required|string',
-            'body' => 'required|string',
-        ]);
+public function sendEmail(Request $request)
+{
 
-        $details = [
-            'subject' => $request->subject,
-            'body' => $request->body,
-        ];
 
-        $users = User::whereIn('id', $request->user_ids)->get();
+    $request->validate([
+        'subject' => 'required|string',
+        'body' => 'required|string',
+        'user_ids' => 'required|array',
+        'attachment' => 'nullable|file|mimes:jpg,jpeg,png,pdf,docx,txt|max:2048',
+    ]);
 
-        foreach ($users as $user) {
-            dispatch(new SendEmailJob($user, $details));
-        }
+    $filePath = null;
+   if ($request->hasFile('attachment')) {
+    $file = $request->file('attachment');
+    $filePath = $file->store('attachments', 'public'); // returns path like: attachments/filename.pdf
+}
 
-        return back()->with('success', 'Emails are being sent!');
+
+    $users = User::whereIn('id', $request->user_ids)->get();
+
+    foreach ($users as $user) {
+
+Mail::to($user->email)->queue(new NotifyUserMail([
+    'subject' => $request->subject,
+    'body' => $request->body,
+    'attachments' => $filePath, // this will be used in Mailable
+]));
+
     }
+
+    return back()->with('success', 'Emails sent successfully!');
+}
 }

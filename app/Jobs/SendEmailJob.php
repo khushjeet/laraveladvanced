@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Jobs;
-// app/Jobs/SendEmailJob.php
+
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
